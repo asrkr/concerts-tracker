@@ -7,7 +7,10 @@ authors = [
     { name = "Ayan Sarkar", email = "a.sarkar@outlook.fr" }
 ]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "dataclasses>=0.8",
+    "datetime>=6.0",
+]
 
 [project.scripts]
 concerts-tracker = "concerts_tracker.main:main"
@@ -15,3 +18,12 @@ concerts-tracker = "concerts_tracker.main:main"
 [build-system]
 requires = ["uv_build>=0.13.6,<0.14.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pylint>=4.1.3",
+    "pytest>=9.2.0",
+    "radon>=6.0.1",
+    "ruff>=0.17.4",
+]
