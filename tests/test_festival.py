@@ -1,6 +1,9 @@
 """Tests for the Festival model."""
 
 from datetime import date, time
+from dataclasses import replace
+
+import pytest
 
 from concerts_tracker.concert import Concert
 from concerts_tracker.festival import Festival
@@ -49,3 +52,18 @@ def test_festival_start_end_date() -> None:
     festival = Festival(name="Solidays", concerts=[concert1, concert2])
     assert festival.start_date == concert1.day
     assert festival.end_date == concert2.day
+
+
+def test_add_concert_appends_to_festival(festival: Festival, concert: Concert) -> None:
+    """add_concert adds the concert to the festival's list."""
+    festival.add_concert(concert)
+    assert festival.concerts == [concert]
+
+
+def test_add_concert_rejects_same_start(festival: Festival, concert: Concert) -> None:
+    """add_concert refuses a concert starting at the same time as another one."""
+    festival.add_concert(concert)
+    clash = replace(concert, artist="Noah Kahan")
+    with pytest.raises(ValueError):
+        festival.add_concert(clash)
+    assert festival.concerts == [concert]
