@@ -1,4 +1,4 @@
-"""Test declaration and properties for the Festival class."""
+"""Tests for the Concert model."""
 
 from datetime import date, datetime, time, timedelta
 
@@ -6,12 +6,12 @@ from concerts_tracker.concert import Concert
 
 
 def test_concert_creation() -> None:
-    """New concert, date is past."""
+    """A past concert exposes its fields, complete_date and is_past."""
     concert_test = Concert(
         artist="Lana Del Rey",
         day=date(2024, 8, 21),
         start_time=time(21, 30),
-        venue="Rock En Seine"
+        venue="Rock En Seine",
     )
     assert concert_test.artist == "Lana Del Rey"
     assert concert_test.venue == "Rock En Seine"
@@ -20,12 +20,12 @@ def test_concert_creation() -> None:
 
 
 def test_concert_is_not_past() -> None:
-    """New concert, with a date ahead of one day to check the property is_past."""
+    """A concert scheduled for tomorrow is not past."""
     tomorrow = date.today() + timedelta(days=1)
     concert_test = Concert(
         artist="Noah Kahan",
         day=tomorrow,
         start_time=time(20, 0),
-        venue="Accor Arena"
+        venue="Accor Arena",
     )
     assert not concert_test.is_past

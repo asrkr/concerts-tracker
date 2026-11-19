@@ -1,4 +1,4 @@
-"""Concert class, is reused in Festival class."""
+"""Concert model."""
 
 from dataclasses import dataclass
 from datetime import date, datetime, time
@@ -6,7 +6,7 @@ from datetime import date, datetime, time
 
 @dataclass
 class Concert:
-    """An event, with one artist, a day, time and place."""
+    """A concert: one artist performing at a venue on a given day and time."""
     artist: str
     day: date
     start_time: time
@@ -15,10 +15,10 @@ class Concert:
 
     @property
     def complete_date(self) -> datetime:
-        """Combines the day and the time to create a datetime object."""
+        """Day and start time of the concert as a single datetime."""
         return datetime.combine(self.day, self.start_time)
 
     @property
     def is_past(self) -> bool:
-        """"Checks if a concert has already happened."""
+        """Whether the concert has already started."""
         return datetime.now() > self.complete_date
