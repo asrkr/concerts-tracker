@@ -23,3 +23,14 @@ class Festival:
         """Day of the latest concert, or None if there are no concerts."""
         days = [concert.day for concert in self.concerts]
         return max(days, default=None)
+
+
+    def add_concert(self, concert: Concert) -> None:
+        """Add a concert to the festival.
+
+        Raises:
+            ValueError: if another concert already starts at the same date and time.
+        """
+        if any(c.complete_date == concert.complete_date for c in self.concerts):
+            raise ValueError("Un concert a déjà lieu en même temps.")
+        self.concerts.append(concert)
