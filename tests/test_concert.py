@@ -1,5 +1,6 @@
+from datetime import date, datetime, time, timedelta
+
 from concerts_tracker.concert import Concert
-from datetime import date, time, datetime, timedelta
 
 
 def test_concert_creation() -> None:
