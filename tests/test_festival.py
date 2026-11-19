@@ -1,6 +1,6 @@
 """Tests for the Festival model."""
 
-from datetime import date, time
+from datetime import time, timedelta
 from dataclasses import replace
 
 import pytest
@@ -9,49 +9,26 @@ from concerts_tracker.concert import Concert
 from concerts_tracker.festival import Festival
 
 
-def test_festival_creation() -> None:
+def test_festival_creation(concert: Concert) -> None:
     """A festival keeps the concerts it is created with."""
-    concert1 = Concert(
-        artist="Noah Kahan",
-        day=date(2025, 12, 7),
-        start_time=time(20, 0),
-        venue="Accor Arena",
-    )
-    concert2 = Concert(
-        artist="Lana Del Rey",
-        day=date(2025, 12, 7),
-        start_time=time(18, 0),
-        venue="Accor Arena",
-    )
-    festival = Festival(name="DreamFest", concerts=[concert1, concert2])
+    other = replace(concert, artist="Noah Kahan", start_time=time(18, 0))
+    festival = Festival(name="DreamFest", concerts=[concert, other])
     assert len(festival.concerts) == 2
 
 
-def test_festival_is_empty_by_default() -> None:
+def test_festival_is_empty_by_default(festival: Festival) -> None:
     """A festival created with only a name has no concerts and no dates."""
-    festival = Festival(name="Hellfest")
     assert not festival.concerts
     assert festival.start_date is None
     assert festival.end_date is None
 
 
-def test_festival_start_end_date() -> None:
+def test_festival_start_end_date(concert: Concert) -> None:
     """start_date and end_date are the earliest and latest concert days."""
-    concert1 = Concert(
-        artist="David Guetta",
-        day=date(2027, 6, 13),
-        start_time=time(20, 0),
-        venue="Hippodrome de Longchamp",
-    )
-    concert2 = Concert(
-        artist="Zara Larsson",
-        day=date(2027, 6, 14),
-        start_time=time(19, 0),
-        venue="Hippodrome de Longchamp",
-    )
-    festival = Festival(name="Solidays", concerts=[concert1, concert2])
-    assert festival.start_date == concert1.day
-    assert festival.end_date == concert2.day
+    next_day = replace(concert, artist="Zara Larsson", day=concert.day + timedelta(days=1))
+    festival = Festival(name="Solidays", concerts=[next_day, concert])
+    assert festival.start_date == concert.day
+    assert festival.end_date == next_day.day
 
 
 def test_add_concert_appends_to_festival(festival: Festival, concert: Concert) -> None:
