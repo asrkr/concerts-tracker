@@ -52,3 +52,11 @@ def test_add_concert_same_day(festival: Festival, concert: Concert) -> None:
     second = replace(concert, artist="Tate McRae", start_time=time(19, 0))
     festival.add_concert(second)
     assert festival.concerts == [concert, second]
+
+
+def test_sorted_concerts_is_chronological(festival: Festival, concert: Concert) -> None:
+    """sorted_concerts lists concerts by start, whatever the insertion order."""
+    concert2 = replace(concert, artist="Noah Kahan", start_time=time(18, 0))
+    festival.add_concert(concert2)
+    festival.add_concert(concert)
+    assert festival.sorted_concerts == [concert2, concert]

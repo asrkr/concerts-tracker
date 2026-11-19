@@ -24,6 +24,11 @@ class Festival:
         days = [concert.day for concert in self.concerts]
         return max(days, default=None)
 
+    @property
+    def sorted_concerts(self) -> list[Concert]:
+        """Concerts of the festival in chronological order."""
+        return sorted(self.concerts, key=lambda c: c.complete_date)
+
 
     def add_concert(self, concert: Concert) -> None:
         """Add a concert to the festival.
