@@ -1,7 +1,7 @@
 """Tests for the Festival model."""
 
-from datetime import time, timedelta
 from dataclasses import replace
+from datetime import time, timedelta
 
 import pytest
 
