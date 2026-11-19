@@ -44,3 +44,11 @@ def test_add_concert_rejects_same_start(festival: Festival, concert: Concert) ->
     with pytest.raises(ValueError):
         festival.add_concert(clash)
     assert festival.concerts == [concert]
+
+
+def test_add_concert_same_day(festival: Festival, concert: Concert) -> None:
+    """A festival can host two concerts on the same day, with different start times."""
+    festival.add_concert(concert)
+    second = replace(concert, artist="Tate McRae", start_time=time(19, 0))
+    festival.add_concert(second)
+    assert festival.concerts == [concert, second]
